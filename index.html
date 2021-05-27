@@ -49,7 +49,7 @@ function onMatch() {
 </script>
 <textarea id="textSour" placeholder="在此输入原始文本"></textarea>
 <div>
-正则：<input type="text" id="textPattern" placeholder="在此输入正则表达式" value="(\d+)元\D+卡号[：: ]+(\d+)[；; ]+卡密[：: ]+(\d+)"></input>
+正则：<input type="text" id="textPattern" placeholder="在此输入正则表达式" value="(\d+)元\D+卡号[：: ]*(\d+)[；; ，,]*卡密[：: ]*(\d+)"></input>
 </div>
 <div>
 <button onclick="onMatch();">提取</button>&nbsp;&nbsp;&nbsp;&nbsp;
