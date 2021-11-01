@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta charset="UTF-8" />
+<meta content="width=device-width, minimum-scale=1.0, user-scalable=no" name="viewport" />
+<title>卡密提取</title>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" ></script>
+<style>
+textarea{ width: 100%; height: 200px; }
+input{ width: 100%; flex: 1; }
+div{ display: flex; justify-content: center; margin-bottom: 5px; }
+</style>
+</head>
+<body>
+<script>
+function reset()
+{
+	$("#textSour").val("");
+	$("#textMatchResult").val("");
+}
+function onMatch() {
+	$("#textMatchResult").val("");
+	var regex = new RegExp($("#textPattern").val(), "gi");
+	var result = $("#textSour").val().matchAll(regex);
+	result = Array.from(result);
+	if (null == result || 0 == result.length) {
+		$("#textMatchResult").val("（没有结果）");
+		return;
+	}
+	var strResult = "";
+	var cards = [];
+	result.forEach(card => {
+		if (!cards.hasOwnProperty(card[3]))
+			cards[card[3]] = [];
+		cards[card[3]].push(card[1] + " " + card[2]);
+		}
+	);
+	for(var i in cards) {
+		if(cards[i].length > 0) {
+			cards[i] = Array.from(new Set(cards[i]));
+			strResult += "面值" + i + "元共" + cards[i].length + "个：\r\n";
+			cards[i].forEach(card => strResult += card + "\r\n");
+			strResult +=  "\r\n";
+		}
+	}
+	$("#textMatchResult").val(strResult);
+}
+</script>
+<textarea id="textSour" placeholder="在此输入原始文本"></textarea>
+<div>
+正则：<input type="text" id="textPattern" placeholder="在此输入正则表达式" value="卡号：(\d+) 密码：(\d+).+(\d+)元"></input>
+</div>
+<div>
+<button onclick="onMatch();">提取</button>&nbsp;&nbsp;&nbsp;&nbsp;
+<button onclick="reset();">重置</button>
+</div>
+<textarea readonly="readonly" id="textMatchResult"></textarea>
+</body>
+</html>
