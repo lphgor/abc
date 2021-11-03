@@ -37,6 +37,7 @@ function onMatch() {
 	
 	if(cards.length > 0) {
 		cards = Array.from(new Set(cards));
+		cards.sort();
 		strResult += "共" + cards.length + "个：\r\n";
 		cards.forEach(card => strResult += card + "\r\n");
 		}
